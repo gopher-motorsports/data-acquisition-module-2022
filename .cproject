@@ -81,8 +81,11 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.65397348" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.457892185.1091245117" name="GopherCAN_ACM.h" rcbsApplicability="disable" resourcePath="Core/c-libraries/gophercan-lib/gophercannon/outputs/GopherCAN_ACM.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.457892185.1366198618" name="GopherCAN_Common.h" rcbsApplicability="disable" resourcePath="Core/c-libraries/gophercan-lib/gophercannon/outputs/GopherCAN_Common.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.457892185.1436600207" name="GopherCAN_DAM.h" rcbsApplicability="disable" resourcePath="Core/c-libraries/gophercan-lib/gophercannon/outputs/GopherCAN_DAM.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
+						<entry excluding="c-libraries/gophercan-lib/GopherCAN_router_example.c|c-libraries/gophercan-lib/GopherCAN_example.c|c-libraries/gophercan-lib/other_files/Setup/F7_example_main.c|c-libraries/gophercan-lib/other_files/Setup/F0_example_main.c|c-libraries/gophercan-lib/gophercannon/outputs/GopherCAN_Common.h|c-libraries/gophercan-lib/gophercannon/outputs/GopherCAN_DAM.h|c-libraries/gophercan-lib/gophercannon/outputs/GopherCAN_AUTOGEN.c|c-libraries/gophercan-lib/gophercannon/outputs/GopherCAN_ACM.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
@@ -187,5 +190,12 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/DAM"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/DAM"/>
+		</configuration>
+	</storageModule>
 </cproject>

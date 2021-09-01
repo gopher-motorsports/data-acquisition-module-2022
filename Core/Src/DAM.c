@@ -6,11 +6,8 @@
  */
 
 #include <string.h>
+#include "cmsis_os.h"
 #include "main.h"
-#include "sensor_hal.h"
-#include "GopherCAN.h"
-#include "dam_hw_config.h"
-#include "gopher_sense_lib.h"
 #include "DAM.h"
 
 extern ADC_HandleTypeDef hadc1;
@@ -43,14 +40,6 @@ extern TIM_HandleTypeDef htim13;
 #define INITIAL_DATA 0xAA
 #define DATA_CONV_FAILURE_REPLACEMENT -1
 
-typedef enum {
-    NO_ERRORS = 0,
-    INITIALIZATION_ERROR = 1,
-    CAN_ERROR = 2,
-    RUNTIME_ERROR = 3,
-    CRITICAL_ERROR = 4,
-    TBD_ERROR = 5
-} DAM_ERROR_STATE;
 
 
 typedef enum {
@@ -59,7 +48,7 @@ typedef enum {
     NORMAL = 2
 } DAM_STATE;
 
-extern U8* parameter_data_types;
+//extern U8* parameter_data_types;
 
 static U64 error_count;
 static DAM_STATE dam_state = WAITING;
@@ -133,10 +122,10 @@ void DAM_init(void) {
             BUCKET bucket = buckets[i];
             bucket.state = BUCKET_INIT;
             for (U16 n = 0; n < bucket.bucket.len; n++) {
-                GENERAL_PARAMETER param = bucket.bucket.list[n];
-                param.status = CLEAN;
-                param.param.update_enabled = TRUE;
-                param.param.data = INITIAL_DATA; // Set some initial value
+                GENERAL_PARAMETER* param = &bucket.bucket.list[n];
+                param->status = CLEAN;
+                param->param.float_struct.update_enabled = TRUE;
+                param->param.float_struct.data = INITIAL_DATA; // Set some initial value
             }
         }
     }
@@ -164,7 +153,7 @@ void complete_DLM_handshake (void) {
             for (U16 n = 0; n < bucket.bucket.len; n++) {
                 GENERAL_PARAMETER param = bucket.bucket.list[n];
                 send_can_command(PRIO_HIGH, DLM_ID, ADD_PARAM_TO_BUCKET, bucket.bucket_id,
-                                 GET_U16_MSB(param.param.param_id), GET_U16_LSB(param.param.param_id), 0);
+                                 GET_U16_MSB(param.param.float_struct.param_id), GET_U16_LSB(param.param.float_struct.param_id), 0);
             }
             osDelay(1); // Delay to avoid flooding the TX_queue
         }
@@ -187,9 +176,8 @@ void complete_DLM_handshake (void) {
 
 BUCKET* get_bucket_by_id (U8 bucket_id) {
     for (U8 i = 0; i < NUM_BUCKETS; i++) {
-        BUCKET b = buckets[i];
-        if (b.bucket_id == bucket_id) {
-            return &b;
+        if (buckets[i].bucket_id == bucket_id) {
+            return &buckets[i];
         }
     }
     return NULL;
@@ -212,7 +200,7 @@ void ADC_sensor_service (void) {
                 converted = DATA_CONV_FAILURE_REPLACEMENT;
             }
             // No data cast as we assume params are set up correctly
-            param.analog_param.param.data = converted;
+            param.analog_param.param.float_struct.data = converted;
             fill_analog_subparams(&param);
         }
     }
@@ -231,7 +219,7 @@ void ADC_sensor_service (void) {
                 converted = DATA_CONV_FAILURE_REPLACEMENT;
             }
             // No data cast as we assume params are set up correctly
-            param.analog_param.param.data = converted;
+            param.analog_param.param.float_struct.data = converted;
             fill_analog_subparams(&param);
         }
     }
@@ -250,7 +238,7 @@ void ADC_sensor_service (void) {
                 converted = DATA_CONV_FAILURE_REPLACEMENT;
             }
             // No data cast as we assume params are set up correctly
-            param.analog_param.param.data = converted;
+            param.analog_param.param.float_struct.data = converted;
             fill_analog_subparams(&param);
         }
     }
@@ -272,7 +260,7 @@ void sensorCAN_service (void) {
                 converted = DATA_CONV_FAILURE_REPLACEMENT;
             }
             // No data cast as we assume params are set up correctly
-            param.can_param.param.data = converted; // fill the data
+            param.can_param.param.float_struct.data = converted; // fill the data
             fill_can_subparams(&param);
         }
     }
@@ -281,9 +269,9 @@ void sensorCAN_service (void) {
 void fill_can_subparams (CAN_SENSOR_PARAM* param) {
     for (U8 i = 0; i < param->num_filtered_params; i++) {
         U16_BUFFER temp = param->buffer;
-        apply_filter(&temp, param->filtered_subparams[i]);
+        apply_filter(&temp, &param->filtered_subparams[i]);
         U16 avg;
-        if (average_buffer(&param.buffer, &avg) != BUFFER_SUCCESS) {
+        if (average_buffer(&param->buffer, &avg) != BUFFER_SUCCESS) {
             continue;
         }
         float data_in = avg;
@@ -293,16 +281,16 @@ void fill_can_subparams (CAN_SENSOR_PARAM* param) {
             converted = DATA_CONV_FAILURE_REPLACEMENT;
         }
         // No data cast as we assume params are set up correctly
-        param->filtered_subparams[i].filtered_param.param.data = converted; //fill the data
+        param->filtered_subparams[i].filtered_param.param.float_struct.data = converted; //fill the data
     }
 }
 
 void fill_analog_subparams (ANALOG_SENSOR_PARAM* param) {
     for (U8 i = 0; i < param->num_filtered_subparams; i++) {
             U16_BUFFER temp = param->buffer;
-            apply_filter(&temp, param->filtered_subparams[i]);
+            apply_filter(&temp, &param->filtered_subparams[i]);
             U16 avg;
-            if (average_buffer(&param.buffer, &avg) != BUFFER_SUCCESS) {
+            if (average_buffer(&param->buffer, &avg) != BUFFER_SUCCESS) {
                 continue;
             }
             float data_in = avg;
@@ -311,7 +299,7 @@ void fill_analog_subparams (ANALOG_SENSOR_PARAM* param) {
                 converted = DATA_CONV_FAILURE_REPLACEMENT;
             }
             // No data cast as we assume params are set up correctly
-            param->filtered_subparams[i].filtered_param.param.data = converted; //fill the data
+            param->filtered_subparams[i].filtered_param.param.float_struct.data = converted; //fill the data
     }
 }
 
@@ -328,7 +316,7 @@ void send_bucket_task (void* pvParameters) {
     while (!all_params_dirty) {
         boolean check_all_params_dirty = TRUE;
         for (U8 i = 0; i < bucket->bucket.len; i++) {
-            GENERAL_PARAMETER param = bucket->bucket[i];
+            GENERAL_PARAMETER param = bucket->bucket.list[i];
             if (param.status < DIRTY) {
                 check_all_params_dirty = FALSE;
             }
@@ -340,9 +328,9 @@ void send_bucket_task (void* pvParameters) {
 
     // send the bucket parameters
     for (U8 i = 0; i < bucket->bucket.len; i++) {
-        GENERAL_PARAMETER param = bucket->bucket[i];
+        GENERAL_PARAMETER* param = &bucket->bucket.list[i];
         U16 err_count = 0;
-        while (send_parameter(PRIO_HIGH, DLM_ID, param.param.param_id) != CAN_SUCCESS) {
+        while (send_parameter(PRIO_HIGH, DLM_ID, param->param.float_struct.param_id) != CAN_SUCCESS) {
             if (++err_count > BUCKET_SEND_MAX_ATTEMPTS) {
                 //Todo set error state behavior
                 handle_DAM_error(TBD_ERROR);
@@ -440,9 +428,9 @@ void bucket_requested (MODULE_ID sender, void* parameter,
     }
 
     if (bucket->state == BUCKET_GETTING_DATA) {
-        const char name_buf[30];
+        char name_buf[30];
         sprintf(name_buf, "%s%d", BUCKET_TASK_NAME_BASE, bucket_id);
-        if (xTaskCreate(send_bucket_task, buf, BUCKET_SEND_TASK_STACK_SIZE,
+        if (xTaskCreate(send_bucket_task, name_buf, BUCKET_SEND_TASK_STACK_SIZE,
                         (void*) bucket, osPriorityNormal, NULL) != pdPASS) {
             // set error state
             handle_DAM_error(TBD_ERROR);

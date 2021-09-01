@@ -1,0 +1,17 @@
+core_cm4.h:1939:34:__NVIC_SystemReset	4	static,ignoring_inline_asm
+DAM.c:61:6:handle_DAM_error	24	static
+DAM.c:84:6:DAM_init	64	static
+DAM.c:138:6:complete_DLM_handshake	96	static
+DAM.c:177:9:get_bucket_by_id	24	static
+DAM.c:188:6:ADC_sensor_service	240	static
+DAM.c:248:6:sensorCAN_service	128	static
+DAM.c:269:6:fill_can_subparams	40	static
+DAM.c:288:6:fill_analog_subparams	40	static
+DAM.c:312:6:send_bucket_task	64	static
+DAM.c:353:6:DAM_main_task	8	static
+DAM.c:389:6:send_bucket_params	16	static
+DAM.c:400:6:bucket_ok	24	static
+DAM.c:420:6:bucket_requested	64	static
+DAM.c:449:6:custom_service_can_rx_hardware	16	static
+DAM.c:466:6:gopherCAN_tx_service_task	8	static
+DAM.c:475:6:gopherCAN_rx_buffer_service_task	8	static

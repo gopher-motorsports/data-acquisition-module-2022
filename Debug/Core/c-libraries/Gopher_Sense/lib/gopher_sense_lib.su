@@ -1,0 +1,16 @@
+gopher_sense_lib.c:33:6:init_sensor_hal	8	static
+gopher_sense_lib.c:44:6:configLibADC	24	static
+gopher_sense_lib.c:51:7:HAL_ADC_ConvCpltCallback	32	static
+gopher_sense_lib.c:81:6:configLibTIM	24	static
+gopher_sense_lib.c:94:6:configTimer	24	static
+gopher_sense_lib.c:110:6:startTimers	8	static
+gopher_sense_lib.c:117:6:stopTimers	8	static
+gopher_sense_lib.c:128:6:DAQ_TimerCallback	16	static
+gopher_sense_lib.c:150:6:sensor_can_message_handle	216	static
+gopher_sense_lib.c:204:4:buffer_full	16	static
+gopher_sense_lib.c:211:4:add_to_buffer	16	static
+gopher_sense_lib.c:225:4:reset_buffer	16	static
+gopher_sense_lib.c:235:4:average_buffer	24	static
+gopher_sense_lib.c:250:4:apply_can_sensor_conversion	24	static
+gopher_sense_lib.c:256:4:apply_analog_sensor_conversion	24	static
+gopher_sense_lib.c:262:4:apply_filter	16	static

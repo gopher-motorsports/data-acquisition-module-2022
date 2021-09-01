@@ -1,0 +1,5 @@
+dam_hw_config.c:45:6:init_adc1_params	16	static
+dam_hw_config.c:114:6:init_adc2_params	4	static
+dam_hw_config.c:142:6:init_adc3_params	8	static
+dam_hw_config.c:221:6:init_can_params	16	static
+dam_hw_config.c:347:6:init_buckets	8	static

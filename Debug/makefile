@@ -13,6 +13,11 @@ RM := rm -rf
 -include Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/subdir.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
+-include Core/c-libraries/gophercan-lib/subdir.mk
+-include Core/c-libraries/Gopher_Sense/lib/subdir.mk
+-include Core/c-libraries/Gopher_Sense/Build/subdir.mk
+-include Core/c-libraries/Gopher_Sense/subdir.mk
+-include Core/c-libraries/C-Utils/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include subdir.mk

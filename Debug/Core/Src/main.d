@@ -40,7 +40,20 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../Core/Inc/DAM.h
+ ../Core/Inc/DAM.h \
+ C:/Users/ian/SAECode/c-libraries/Gopher_Sense/sensor_hal.h \
+ C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN_structs.h \
+ C:/Users/ian/SAECode/c-libraries/C-Utils/base_types.h \
+ C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN_ids.h \
+ C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN.h \
+ ../Core/Inc/GopherCAN_config.h \
+ C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN_structs.h \
+ C:/Users/ian/SAECode/c-libraries/gophercan-lib/gophercan_params.h \
+ C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN_ring_buffer.h \
+ C:/Users/ian/SAECode/c-libraries/Gopher_Sense/Build/dam_hw_config.h \
+ C:/Users/ian/SAECode/c-libraries/Gopher_Sense/lib/gopher_sense_lib.h \
+ C:/Users/ian/SAECode/c-libraries/Gopher_Sense/lib/gopher_sense_lib.h \
+ C:/Users/ian/SAECode/c-libraries/Gopher_Sense/Build/gopher_sense.h
 
 ../Core/Inc/main.h:
 
@@ -127,3 +140,29 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 
 ../Core/Inc/DAM.h:
+
+C:/Users/ian/SAECode/c-libraries/Gopher_Sense/sensor_hal.h:
+
+C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN_structs.h:
+
+C:/Users/ian/SAECode/c-libraries/C-Utils/base_types.h:
+
+C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN_ids.h:
+
+C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN.h:
+
+../Core/Inc/GopherCAN_config.h:
+
+C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN_structs.h:
+
+C:/Users/ian/SAECode/c-libraries/gophercan-lib/gophercan_params.h:
+
+C:/Users/ian/SAECode/c-libraries/gophercan-lib/GopherCAN_ring_buffer.h:
+
+C:/Users/ian/SAECode/c-libraries/Gopher_Sense/Build/dam_hw_config.h:
+
+C:/Users/ian/SAECode/c-libraries/Gopher_Sense/lib/gopher_sense_lib.h:
+
+C:/Users/ian/SAECode/c-libraries/Gopher_Sense/lib/gopher_sense_lib.h:
+
+C:/Users/ian/SAECode/c-libraries/Gopher_Sense/Build/gopher_sense.h:
